@@ -24,6 +24,12 @@ wss.on('connection', function connection(ws) {
 						client.send(JSON.stringify({'type': 'signal', 'data': data.SDP}));
 					}
 				});
+			}else if(data.type === "icecandi"){
+				wss.clients.forEach(client => {
+					if(client !== ws && client.readyState === WebSocket.OPEN && ws.roomId === client.roomId){
+						client.send(JSON.stringify({'type': 'icecandi', 'data': data.SDP}));
+					}
+				});
 			}
 		}catch(e){
 			console.warn(e);

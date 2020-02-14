@@ -13,23 +13,17 @@ wss.on('connection', function connection(ws) {
 			if(data.type === "connect"){
 				ws.roomId = data.Id;
 				ws.send(JSON.stringify({'type': 'meta', 'msg': 'connected.'}));
-				const targ = wss.clients.find(client => {
+				wss.clients.forEach(client => {
 					if(client !== ws && client.readyState === WebSocket.OPEN && ws.roomId === client.roomId){
-						return true;
-					}return false;
+						client.send(JSON.stringify({'type': 'require'}));
+					}
 				});
-				if(targ){
-					targ.send(JSON.stringify({'type': 'require'}));
-				}
 			}else if(data.type === "signaling"){
-				const targ = wss.clients.find(client => {
+				wss.clients.forEach(client => {
 					if(client !== ws && client.readyState === WebSocket.OPEN && ws.roomId === client.roomId){
-						return true;
-					}return false;
+						client.send(JSON.stringify({'type': 'signal', 'data': data.SDP}));
+					}
 				});
-				if(targ){
-					targ.send(JSON.stringify({'type': 'signal', 'data': data.SDP}));
-				}
 			}
 		}catch(e){
 			console.warn(e);

@@ -1,8 +1,7 @@
+
 const WebSocket = require('ws');
 
-const wss = new WebSocket.Server({ port: 3197 });
-
-
+const wss = new WebSocket.Server({ port: process.env.PORT || 3197 });
 
 wss.on('connection', function connection(ws) {
 	ws.roomId = "";
@@ -35,5 +34,4 @@ wss.on('connection', function connection(ws) {
 			console.warn(e);
 		}
 	});
-	//ws.send('something');
 });

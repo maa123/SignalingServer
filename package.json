@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/maa123/SignalingServer#readme",
   "dependencies": {
-    "ws": "^7.2.1"
+    "ws": "^7.4.6"
   }
 }
